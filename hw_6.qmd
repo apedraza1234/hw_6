@@ -1,0 +1,21 @@
+---
+title: "hw_6"
+author: "alejandra pedraza"
+author: "W. Jamie Yang" 
+format: html
+editor: visual
+bibliography:references.bib
+embed-resources: true 
+---
+
+```{r}
+#| label: loading libraries 
+#| include: false
+
+```
+
+```{r}
+#| label: loading data 
+
+```
+
