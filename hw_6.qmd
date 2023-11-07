@@ -1,10 +1,17 @@
 ---
 title: "hw_6"
-author: "alejandra pedraza"
-author: "W. Jamie Yang" 
-format: html
+author:
+  - Alejandra Pedraza
+  - W. Jamie Yang
+format: pdf
 editor: visual
-bibliography:references.bib
+execute:
+  eval: true
+  echo: false
+fig-width: 6.5
+fig-height: 8
+bibliography: references.bib
+link-citations: true
 embed-resources: true 
 ---
 
@@ -12,10 +19,29 @@ embed-resources: true
 #| label: loading libraries 
 #| include: false
 
+library(tidyverse)
+library(rio)
+library(here)
 ```
 
 ```{r}
 #| label: loading data 
 
+star <- import(here("data", "star.csv")) %>%
+  as_tibble()
+
 ```
 
+# Literature Review
+
+Bonilla-Silva argues that the United States' racial system is transitioning into a tri-racial system comprised of whites, "honorary white", and Blacks, and that phenotype will be the key determinant in dictating where one falls [@bonilla-silva2018].
+
+In outlining the tenets of Black Feminist Thought, Patricia Hill collins argues that portrayals of African-American women as mammies, matriarchs, welfare recipients, and hot mommas help justify Black women's oppression [@collins2009].
+
+Yosso argues that a Critical Race Theory (CRT) lens is useful to transition away from subtractive teaching practices and recognize that communities of color nurture community cultural wealth through at least 6 forms of capital--aspirational, navigational, social, linguistic, familial and resistance capital [@yosso2005].
+
+Mora argues that the insitutionalization of panethnic Hispanic identity evolved through processes of 1) co-optation through state classification, 2) negotiation, and 3) marketing by activists, government officials, and media executives [@mora2014].
+
+\newpage
+
+# References
