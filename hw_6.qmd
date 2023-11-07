@@ -22,6 +22,8 @@ embed-resources: true
 library(tidyverse)
 library(rio)
 library(here)
+library(dplyr)
+library(knitr)
 ```
 
 ```{r}
@@ -41,6 +43,25 @@ In outlining the tenets of Black Feminist Thought, Patricia Hill collins argues 
 Yosso argues that a Critical Race Theory (CRT) lens is useful to transition away from subtractive teaching practices and recognize that communities of color nurture community cultural wealth through at least 6 forms of capital--aspirational, navigational, social, linguistic, familial and resistance capital [@yosso2005].
 
 Mora argues that the insitutionalization of panethnic Hispanic identity evolved through processes of 1) co-optation through state classification, 2) negotiation, and 3) marketing by activists, government officials, and media executives [@mora2014].
+
+# Commit 3
+
+```{r}
+star1 <- star %>%
+  mutate(math_mean = mean(tmathss),
+         math_sd = sd(tmathss), 
+         rdg_mean = mean(treadss),
+         rdg_sd = sd(treadss)) %>%
+  select(sex, frl, math_mean, math_sd, rdg_mean, rdg_sd) %>%
+  group_by(sex, frl) %>%
+  summarize(c(math_mean, math_sd, rdg_mean, rdg_sd), ~mean(., na.rm =TRUE))) %>%
+  kabelExtra(col.names = c("sex", "frl", "math_mean", "math_sd", "rdg_mean", "rdg_sd"),
+        digits = 1,
+        booktabs = TRUE))
+  
+
+
+```
 
 \newpage
 
