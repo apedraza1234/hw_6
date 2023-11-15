@@ -15,6 +15,8 @@ link-citations: true
 embed-resources: true 
 ---
 
+# Commit 1 
+
 ```{r}
 #| label: loading libraries 
 #| include: false
@@ -24,17 +26,24 @@ library(rio)
 library(here)
 library(dplyr)
 library(knitr)
+library(ggplot2)
+
 ```
 
 ```{r}
 #| label: loading data 
 
 star <- import(here("data", "star.csv")) %>%
-  as_tibble()
+  as_tibble() %>%
+  mutate(recode(frl, 
+         yes = "Free/Reduced Price Meals",
+         No = "Paid Meals"))
+
+view(star)
 
 ```
 
-# Literature Review
+# Commit 2: Literature Review
 
 Bonilla-Silva argues that the United States' racial system is transitioning into a tri-racial system comprised of whites, "honorary white", and Blacks, and that phenotype will be the key determinant in dictating where one falls [@bonilla-silva2018].
 
@@ -47,22 +56,63 @@ Mora argues that the insitutionalization of panethnic Hispanic identity evolved 
 # Commit 3
 
 ```{r}
+#| label: data wrangling
 star1 <- star %>%
+  group_by(sex, frl) %>% 
   mutate(math_mean = mean(tmathss),
          math_sd = sd(tmathss), 
          rdg_mean = mean(treadss),
-         rdg_sd = sd(treadss)) %>%
-  select(sex, frl, math_mean, math_sd, rdg_mean, rdg_sd) %>%
-  group_by(sex, frl) %>%
-  summarize(c(math_mean, math_sd, rdg_mean, rdg_sd), ~mean(., na.rm =TRUE))) %>%
-  kabelExtra(col.names = c("sex", "frl", "math_mean", "math_sd", "rdg_mean", "rdg_sd"),
-        digits = 1,
-        booktabs = TRUE))
+         rdg_sd = sd(treadss))  %>%
+  select(sex, frl, math_mean, math_sd, rdg_mean, rdg_sd) 
+
+view(star1)
+```
+  
+```{r}
+#| label: make a table 
+star1 %>% 
+  summarize(across(c(math_mean, math_sd, rdg_mean, rdg_sd), ~mean(., na.rm =TRUE))) %>%
+  kable(col.names = c("sex", "frl", "math_mean", "math_sd", "rdg_mean", "rdg_sd"),
+        digits = 2,
+        booktabs = TRUE) 
+```
+
+# Commit 4
+
+```{r}
+#| label: make a plot
+star %>% 
+  ggplot(aes(x = totexp, y = tmathss)) +
+  geom_point(size = 0.5, color = "gray70") +
+  geom_smooth(method = lm, se = TRUE, aes(color = frl)) +
+  labs(
+    title = "Relation between teacher experience and math scores",
+    subtitle = "Separate regression lines displayed by free/reduced price lunch status",
+    x = "Teacher Experience (years)",
+    y = "Total Math Scale Score",
+    color = "frl"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "bottom") 
   
 
+  # scale_fill_discrete(name = "Lunch status", 
+                      #labels = c("Free/Reduced Price Meals", "Paid Meals"))
+   
 
 ```
+
+I successfully positioned the legend at the bottom but couldn't figure out how to change the legend title and the texts. 
 
 \newpage
 
 # References
+
+
+
+
+
+
+
+
+
